@@ -9,16 +9,16 @@ echo 'LunarVim prerequisites installed'
 # Take Inputs
 
 ## git
-if [! -f ~/.gitconfig ]; then
+if [ ! -f ~/.gitconfig ]; then
     echo 'Enter email for git'
     read email
     echo 'Enter user.name for git'
     read name
+    git config --global user.email "$email"
+    git config --global user.name "$name"
+    git config --global credential.helper store
+    echo 'git config done. You need to generate token(PAT) on web'
 fi
-git config --global user.email "$email"
-git config --global user.name "$name"
-git config --global credential.helper store
-echo 'git config done. You need to generate token(PAT) on web'
 
 ## lunarvim
 if [ ! -d ~/.npm-global/ ]; then
