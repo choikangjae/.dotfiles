@@ -13,6 +13,9 @@ fi
 if [ -f ~/Dotfiles/bash/.bash_arch ]; then
     . ~/Dotfiles/bash/.bash_arch
 fi
+if [ -f ~/Dotfiles/bash/.bash_private ]; then
+    . ~/Dotfiles/bash/.bash_private
+fi
 
 # If not running interactively, don't do anything
 case $- in

@@ -10,6 +10,8 @@ alias vv='lvim ~/.config/lvim/config.lua'
 
 alias vb='lvim $BASH'
 alias sb='source $BASH'
+alias vf='lvim ~/.bash_functions'
+alias va='lvim ~/.bash_aliases'
 alias rm='rm -i'
 
 alias ...='cd ../../'
