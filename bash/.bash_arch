@@ -1,0 +1,10 @@
+alias pins="sudo pacman -S "
+alias pup="sudo pacman -Syu "
+alias plist="sudo pacman -Qe "
+alias prem="sudo pacman -Rs "
+
+alias yins="yay -S "
+alias yrem="yay -Rns "
+alias yup="yay "
+alias ylist="pacman -Qm"
+
