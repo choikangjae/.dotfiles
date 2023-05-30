@@ -435,5 +435,18 @@
         "target_uinput": "keyboard + mouse",
         "output_symbol": "wheel(up, 15)",
         "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 42,
+                "origin_hash": "586147b2f5c0ad2ace68bbb6da2ad988"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "if_single(key(Hangul), hold(Shift_L))",
+        "name": "Shift_L",
+        "mapping_type": "key_macro"
     }
 ]
