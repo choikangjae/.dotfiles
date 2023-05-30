@@ -1,4 +1,5 @@
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/usr/local:$PATH"
 
 if [ -f ~/Dotfiles/bash/.bash_aliases ]; then
     . ~/Dotfiles/bash/.bash_aliases
@@ -8,6 +9,9 @@ if [ -f ~/Dotfiles/bash/.bash_functions ]; then
 fi
 if [ -f ~/Dotfiles/bash/.bash_wsl ]; then
     . ~/Dotfiles/bash/.bash_wsl
+fi
+if [ -f ~/Dotfiles/bash/.bash_arch ]; then
+    . ~/Dotfiles/bash/.bash_arch
 fi
 
 # If not running interactively, don't do anything
@@ -71,15 +75,6 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
-# case "$TERM" in
-# xterm*|rxvt*)
-#     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-#     ;;
-# *)
-#     ;;
-# esac
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -103,3 +98,12 @@ fi
 #  fi
 #fi
 #. "$HOME/.cargo/env"
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
