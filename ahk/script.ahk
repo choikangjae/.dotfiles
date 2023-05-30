@@ -24,12 +24,6 @@ SetCapsLockState, AlwaysOff
 Capslock::Control
 ;LShift에 한영키 바인딩. 쉬프트만 단독으로 눌릴 일은 절대 없으므로.
 LShift::sendInput, {vk15}{LShift up}
-/*
-go := (*) => Send('{b}')
-Loop 0xFF
- Hotkey '<+' GetKeyName(Chr(A_Index)), go
-LShift::go
-*/
 
 ;Left Alt만 입력되었을 경우 비활성화
 LAlt:: return
