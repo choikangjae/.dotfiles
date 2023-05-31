@@ -1,20 +1,21 @@
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local:$PATH"
 
-if [ -f ~/Dotfiles/bash/.bash_aliases ]; then
-    . ~/Dotfiles/bash/.bash_aliases
+DOTFILE_BASH="~/.dotfiles/bash"
+if [ -f $DOTFILE_BASH/.bash_aliases ]; then
+    . $DOTFILE_BASH/.bash_aliases
 fi
-if [ -f ~/Dotfiles/bash/.bash_functions ]; then
-    . ~/Dotfiles/bash/.bash_functions
+if [ -f $DOTFILE_BASH/.bash_functions ]; then
+    . $DOTFILE_BASH/.bash_functions
 fi
-if [ -f ~/Dotfiles/bash/.bash_wsl ]; then
-    . ~/Dotfiles/bash/.bash_wsl
+if [ -f $DOTFILE_BASH/.bash_wsl ]; then
+    . $DOTFILE_BASH/.bash_wsl
 fi
-if [ -f ~/Dotfiles/bash/.bash_arch ]; then
-    . ~/Dotfiles/bash/.bash_arch
+if [ -f $DOTFILE_BASH/.bash_arch ]; then
+    . $DOTFILE_BASH/.bash_arch
 fi
-if [ -f ~/Dotfiles/bash/.bash_private ]; then
-    . ~/Dotfiles/bash/.bash_private
+if [ -f $DOTFILE_BASH/.bash_private ]; then
+    . $DOTFILE_BASH/.bash_private
 fi
 
 # If not running interactively, don't do anything
