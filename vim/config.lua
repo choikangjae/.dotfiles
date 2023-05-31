@@ -1,4 +1,4 @@
--- keymap
+-- -- keymap
 local options = { noremap = true, silent = true }
 local map = vim.keymap
 map.set("i", "<C-e>", "<esc>A;<cr>", options)
@@ -33,10 +33,12 @@ map.set("v", "K", "7gkzzzv", options)
 
 map.set("", "gr", ":BufferLineCyclePrev<cr>", options)
 map.set("", "gt", ":BufferLineCycleNext<cr>", options)
+-- -- keymap DONE
 
 vim.api.nvim_create_autocmd("BufEnter",
     { callback = function() vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" } end, })
 
+-- -- lvim builtin
 -- dap
 lvim.builtin.dap.active = true
 
@@ -51,8 +53,9 @@ lvim.lsp.buffer_mappings.normal_mode['gr'] = nil
 lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.lsp.buffer_mappings.normal_mode['gh'] = lvim.lsp.buffer_mappings.normal_mode['K']
 lvim.lsp.buffer_mappings.normal_mode['K'] = nil
+-- -- lvim builtin DONE
 
--- basic settings
+-- -- vim basic settings
 vim.opt.backup = false                          -- creates a backup file
 vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 -- vim.opt.cmdheight = 2 -- more space in the neovim command line for displaying messages
@@ -62,7 +65,6 @@ vim.opt.conceallevel = 0                        -- so that `` is visible in mark
 vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
 vim.opt.foldmethod = "manual"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
--- vim.opt.guifont = "monospace:h17" -- the font used in graphical neovim applications
 vim.opt.hidden = true                           -- required to keep multiple buffers and open multiple buffers
 vim.opt.hlsearch = true                         -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true                       -- ignore case in search patterns
@@ -91,47 +93,19 @@ vim.opt.cursorcolumn = false                    -- highlight the current line
 vim.opt.number = true                           -- set numbered lines
 vim.opt.relativenumber = true                   -- set relative numbered lines
 vim.opt.numberwidth = 4                         -- set number column width to 2 {default 4}
--- vim.opt.signcolumn = "yes" -- always show the sign column otherwise it would shift the text each time
 vim.opt.wrap = true                             -- display lines as one long line
 vim.opt.spell = false
 vim.opt.spelllang = "en"
-vim.opt.scrolloff = 8 -- is one of my fav
+vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
-
--- vim options
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.relativenumber = true
+-- -- vim basic settings DONE
 
--- general
-lvim.log.level = "info"
-lvim.format_on_save = {
-    enabled = true,
-    pattern = "*.lua",
-    timeout = 1000,
-}
-
--- to disable icons and use a minimalist setup, uncomment the following
--- lvim.use_icons = false
-
-lvim.leader = "space"
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-
-lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
-
--- Automatically install missing parsers when entering buffer
-lvim.builtin.treesitter.auto_install = true
-
--- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
+-- -- plugins
 lvim.plugins = {
-    -- {
-    --   "folke/trouble.nvim",
-    --   cmd = "TroubleToggle",
-    -- },
+    -- <leader>j to hop
     {
         "phaazon/hop.nvim",
         event = "BufRead",
@@ -140,27 +114,21 @@ lvim.plugins = {
             vim.api.nvim_set_keymap("n", "<leader>j", ":HopWord<cr>", { silent = true })
         end,
     },
+    -- vscode theme
     {
         "Mofiqul/vscode.nvim",
     },
-    -- {
-    --   url = 'https://github.com/kana/vim-smartword.git',
-    -- },
-    -- {
-    --   url = 'https://github.com/bkad/CamelCaseMotion.git',
-    -- },
-    -- {
-    --   'mfussenegger/nvim-jdtls',
-    -- },
-    -- {
-    --   "iamcco/markdown-preview.nvim",
-    --   ft = "markdown",
-    --   -- build = "cd app && yarn install",
-    --   build = ":call mkdp#util#install()",
-    -- },
+    -- :MarkdownPreview to use it on markdown file.
+    {
+        "iamcco/markdown-preview.nvim",
+        ft = "markdown",
+        build = ":call mkdp#util#install()",
+    },
 }
+-- -- plugins DONE
 
--- Color Scheme
+-- -- Plugin settings
+-- -- Color scheme
 -- local c = require('vscode.colors').get_colors()
 local black = '#080808'
 require('vscode').setup({
@@ -175,8 +143,9 @@ require('vscode').setup({
 
 })
 lvim.colorscheme = "vscode"
+-- Color scheme DONE
 
--- bufferline
+-- -- bufferline
 local bufferline = require('bufferline')
 bufferline.setup({
     options = {
@@ -185,8 +154,9 @@ bufferline.setup({
         },
     },
 })
+-- -- bufferline DONE
 
--- lualine
+-- -- lualine
 lvim.builtin.lualine.style = "lvim" -- "default" "lvim" or "none"
 lvim.builtin.lualine.sections.lualine_a = { "mode" }
 
@@ -198,8 +168,10 @@ custom_vscode.replace.c = { bg = lualine_black }
 custom_vscode.command.c = { bg = lualine_black }
 custom_vscode.normal.c = { bg = lualine_black }
 lvim.builtin.lualine.options.theme = custom_vscode
+-- -- lualine DONE
+-- -- Plugin settings DONE
 
--- Remember last position.
+-- Remember last position
 -- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
 local ignore_buftype = { "quickfix", "nofile", "help" }
 local ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" }
@@ -245,6 +217,33 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'FileType' }, {
     group    = vim.api.nvim_create_augroup('nvim-lastplace', {}),
     callback = run
 })
+-- Remember last position DONE
+
+-- -- Autogenerated by Lunarvim until the EOF
+-- general
+lvim.log.level = "info"
+lvim.format_on_save = {
+    enabled = true,
+    pattern = "*.lua",
+    timeout = 1000,
+}
+
+-- to disable icons and use a minimalist setup, uncomment the following
+-- lvim.use_icons = false
+
+lvim.leader = "space"
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.terminal.active = true
+lvim.builtin.nvimtree.setup.view.side = "left"
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.nvimtree.setup.view.width = 30
+
+-- Automatically install missing parsers when entering buffer
+lvim.builtin.treesitter.auto_install = true
+-- -- created automatically DONE
 
 -- lvim.builtin.treesitter.ignore_install = { "haskell" }
 
