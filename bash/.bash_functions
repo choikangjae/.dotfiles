@@ -64,4 +64,6 @@ ex ()
   else
     echo "'$1' is not a valid file"
   fi
+man() {
+    vi -c "Man $1" -c "1q"
 }
