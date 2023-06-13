@@ -1,11 +1,20 @@
-alias pins="sudo pacman -S "
-alias pup="sudo pacman -Syu "
+function update() {
+    sudo pacman --noconfirm -Syu && yay
+}
+function rem() {
+    sudo pacman -Rs $1 
+    yay -Rns $1
+}
+
+alias delca="sudo pacman -Sc && yay -Sc"
+alias pins="sudo pacman --noconfirm -S "
 alias plist="sudo pacman -Qe "
 alias prem="sudo pacman -Rs "
 
 alias yins="yay -S "
 alias yrem="yay -Rns "
-alias yup="yay "
 alias ylist="pacman -Qm"
+
+alias pfi="pacman -Ql $1 | grep bin && yay -Ql $1 "
 
 alias r="ranger"

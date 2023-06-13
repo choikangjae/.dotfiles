@@ -1,4 +1,4 @@
-lg() {
+lazy() {
     git add .
         git commit --allow-empty-message --no-edit
         git push
@@ -9,9 +9,16 @@ gitfirst() {
         git push -u origin main
 }
 
+gitn() {
+    git log --reverse --pretty=%H master | grep -A 1 $(git rev-parse HEAD) | tail -n1 | xargs git checkout
+}
+gitp() {
+    git checkout HEAD^1
+}
+
 backup() {
     cd ~/Dotfiles
-        lg
+        lazy
         cd -
 }
 
@@ -69,3 +76,7 @@ ex ()
 man() {
     vi -c "Man $1" -c "1q"
 }
+
+copy() {
+        $1 | xclip -selection clipboard
+    }
