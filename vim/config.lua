@@ -26,16 +26,31 @@ map.set("n", "U", "<C-r>", options)
 map.set("n", "<tab>", "<C-w>w", options)
 map.set("n", "Z", ":%s//<left>", options)
 map.set("n", "gi", "mygg=G'y", options)
+map.set("n", "M", "'", options)
+
 map.set("v", "<cr>", "<esc>", options)
 map.set("v", "J", "7gjzzzv", options)
 map.set("v", "K", "7gkzzzv", options)
 
 map.set("", "gr", ":BufferLineCyclePrev<cr>", options)
 map.set("", "gt", ":BufferLineCycleNext<cr>", options)
+
+lvim.keys.normal_mode["<leader>cn"] = "<cmd>lua vim.lsp.buf.rename()<CR>"
+-- lvim.keys.normal_mode["<leader>so"] = ":so ~/.config/lvim/config.lua<CR>"
 -- -- keymap DONE
 
 vim.api.nvim_create_autocmd("BufEnter",
     { callback = function() vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" } end, })
+
+lvim.builtin.which_key.mappings["t"] = {
+    name = "Diagnostics",
+    t = { "<cmd>TroubleToggle<cr>", "trouble" },
+    w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
+    d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
+    q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
+    l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
+    r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+}
 
 -- -- lvim builtin
 -- dap
@@ -100,9 +115,19 @@ lvim.builtin.nvimtree.setup.view.width = 5
 -- lsp
 lvim.lsp.buffer_mappings.normal_mode['gR'] = lvim.lsp.buffer_mappings.normal_mode['gr']
 lvim.lsp.buffer_mappings.normal_mode['gr'] = nil
-lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.lsp.buffer_mappings.normal_mode['gh'] = lvim.lsp.buffer_mappings.normal_mode['K']
 lvim.lsp.buffer_mappings.normal_mode['K'] = nil
+
+-- telescope
+lvim.builtin.telescope.defaults.initial_mode = 'normal'
+
+-- toggleterm https://github.com/akinsho/toggleterm.nvim
+lvim.builtin.terminal.open_mapping = "<c-t>"
+lvim.builtin.terminal.size = 6
+lvim.builtin.terminal.direction = 'horizontal'
+lvim.builtin.terminal.start_in_insert = true
+map.set('t', '<esc>', [[<C-\><C-n>]], options)
+
 -- -- lvim builtin DONE
 
 -- -- vim basic settings
@@ -155,13 +180,29 @@ vim.opt.relativenumber = true
 
 -- -- plugins
 lvim.plugins = {
-    -- <leader>j to hop
+    -- {
+    --     "Pocco81/auto-save.nvim",
+    -- },
+    {
+        "folke/todo-comments.nvim",
+        event = "BufRead",
+        config = function()
+            require("todo-comments").setup()
+        end,
+    },
+    {
+        "tpope/vim-surround",
+    },
+    {
+        "folke/trouble.nvim"
+    },
     {
         "phaazon/hop.nvim",
         event = "BufRead",
         config = function()
             require("hop").setup()
-            vim.api.nvim_set_keymap("n", "<leader>j", ":HopWord<cr>", { silent = true })
+            vim.api.nvim_set_keymap("n", "t", ":HopWord<cr>", { silent = true })
+            -- vim.api.nvim_set_keymap("n", "<leader>j", ":HopWord<cr>", { silent = true })
         end,
     },
     -- vscode theme
@@ -174,13 +215,26 @@ lvim.plugins = {
         ft = "markdown",
         build = ":call mkdp#util#install()",
     },
-    {
-        "rlue/vim-barbaric"
-    }
 }
 -- -- plugins DONE
 
 -- -- Plugin settings
+-- require 'nvim_lsp/configs'.rust_analyzer.setup({
+--     -- capabilities = capabilities,
+
+--     name = 'rust_analyzer',
+--     -- cmd = { 'rust-analyzer', '-v', '--log-file', '/tmp/rust-analyzer.log' },
+
+--     filetypes = { 'rust' },
+
+--     settings = {
+--         ["rust-analyzer"] = {
+--             cargo = {
+--                 sysroot = "/usr/bin/rustc"
+--             }
+--         },
+--     },
+-- })
 -- -- Color scheme
 -- local c = require('vscode.colors').get_colors()
 local black = '#080808'
@@ -199,14 +253,7 @@ lvim.colorscheme = "vscode"
 -- Color scheme DONE
 
 -- -- bufferline
-local bufferline = require('bufferline')
-bufferline.setup({
-    options = {
-        indicator = {
-            style = 'underline',
-        },
-    },
-})
+lvim.builtin.bufferline.options.indicator.style = "underline"
 -- -- bufferline DONE
 
 -- -- lualine
@@ -222,6 +269,7 @@ custom_vscode.command.c = { bg = lualine_black }
 custom_vscode.normal.c = { bg = lualine_black }
 lvim.builtin.lualine.options.theme = custom_vscode
 -- -- lualine DONE
+
 -- -- Plugin settings DONE
 
 -- Remember last position
@@ -280,9 +328,6 @@ lvim.format_on_save = {
     pattern = "*.lua",
     timeout = 1000,
 }
-
--- to disable icons and use a minimalist setup, uncomment the following
--- lvim.use_icons = false
 
 lvim.leader = "space"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
