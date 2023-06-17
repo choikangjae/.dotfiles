@@ -11,7 +11,6 @@ map.set("", "<Down>", "<c-n>", options)
 map.set("", "e", "$", options)
 map.set("", "s", "^", options)
 
-map.set("n", "k", "gk", options)
 map.set("n", "j", "gj", options)
 map.set("n", "gr", "gT", options)
 map.set("n", "H", "<C-o>", options)
@@ -37,6 +36,11 @@ map.set("", "gt", ":BufferLineCycleNext<cr>", options)
 
 lvim.keys.normal_mode["<leader>cn"] = "<cmd>lua vim.lsp.buf.rename()<CR>"
 -- lvim.keys.normal_mode["<leader>so"] = ":so ~/.config/lvim/config.lua<CR>"
+
+-- refactoring
+map.set("v", "R", ":lua require('refactoring').select_refactor()<CR>",
+    { noremap = true, silent = true, expr = false })
+
 -- -- keymap DONE
 
 vim.api.nvim_create_autocmd("BufEnter",
@@ -107,6 +111,10 @@ dap.configurations.cpp = dap.configurations.rust
 dap.configurations.c = dap.configurations.rust
 -- -- C/C++/Rust DONE
 
+-- -- Python
+-- local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
+-- require("dap-python").setup(mason_path .. "packages/debugpy/venv/bin/python")
+
 -- nvimtree
 vim.api.nvim_set_keymap('n', '<c-d>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
@@ -123,10 +131,10 @@ lvim.builtin.telescope.defaults.initial_mode = 'normal'
 
 -- toggleterm https://github.com/akinsho/toggleterm.nvim
 lvim.builtin.terminal.open_mapping = "<c-t>"
-lvim.builtin.terminal.size = 6
-lvim.builtin.terminal.direction = 'horizontal'
-lvim.builtin.terminal.start_in_insert = true
-map.set('t', '<esc>', [[<C-\><C-n>]], options)
+-- lvim.builtin.terminal.size = 6
+-- lvim.builtin.terminal.direction = 'horizontal'
+-- lvim.builtin.terminal.start_in_insert = true
+map.set('t', 'g<esc>', [[<C-\><C-n>]], options)
 
 -- -- lvim builtin DONE
 
@@ -183,6 +191,16 @@ lvim.plugins = {
     -- {
     --     "Pocco81/auto-save.nvim",
     -- },
+    "mfussenegger/nvim-dap-python",
+    "nvim-neotest/neotest",
+    "nvim-neotest/neotest-python",
+    -- {
+    --     "ThePrimeagen/refactoring.nvim",
+    -- },
+    {
+        "TheLeoP/refactoring.nvim",
+        branch = "fix_390"
+    },
     {
         "folke/todo-comments.nvim",
         event = "BufRead",
@@ -202,7 +220,6 @@ lvim.plugins = {
         config = function()
             require("hop").setup()
             vim.api.nvim_set_keymap("n", "t", ":HopWord<cr>", { silent = true })
-            -- vim.api.nvim_set_keymap("n", "<leader>j", ":HopWord<cr>", { silent = true })
         end,
     },
     -- vscode theme
@@ -219,24 +236,11 @@ lvim.plugins = {
 -- -- plugins DONE
 
 -- -- Plugin settings
--- require 'nvim_lsp/configs'.rust_analyzer.setup({
---     -- capabilities = capabilities,
 
---     name = 'rust_analyzer',
---     -- cmd = { 'rust-analyzer', '-v', '--log-file', '/tmp/rust-analyzer.log' },
+-- -- MarkdownPreview
+vim.g.mkdp_auto_start = 1
 
---     filetypes = { 'rust' },
-
---     settings = {
---         ["rust-analyzer"] = {
---             cargo = {
---                 sysroot = "/usr/bin/rustc"
---             }
---         },
---     },
--- })
 -- -- Color scheme
--- local c = require('vscode.colors').get_colors()
 local black = '#080808'
 require('vscode').setup({
     disable_nvimtree_bg = true,
@@ -325,8 +329,6 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'FileType' }, {
 lvim.log.level = "info"
 lvim.format_on_save = {
     enabled = true,
-    pattern = "*.lua",
-    timeout = 1000,
 }
 
 lvim.leader = "space"
@@ -352,18 +354,16 @@ lvim.builtin.treesitter.auto_install = true
 
 -- --- disable automatic installation of servers
 -- lvim.lsp.installer.setup.automatic_installation = false
+-- lvim.lsp.installer.setup.automatic_installation.exclude = { "pyright" }
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("marksman", opts)
-
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 -- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
---   return server ~= "emmet_ls"
+--     return server ~= "pyright"
 -- end, lvim.lsp.automatic_configuration.skipped_servers)
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
@@ -377,25 +377,48 @@ lvim.builtin.treesitter.auto_install = true
 -- end
 
 -- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
--- local formatters = require "lvim.lsp.null-ls.formatters"
--- formatters.setup {
---   { command = "stylua" },
---   {
---     command = "prettier",
---     extra_args = { "--print-width", "100" },
---     filetypes = { "typescript", "typescriptreact" },
---   },
--- }
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
---   { command = "flake8", filetypes = { "python" } },
---   {
---     command = "shellcheck",
---     args = { "--severity", "warning" },
---   },
--- }
--- vim.g.mkdp_open_to_the_world = 1
--- vim.g.mkdp_browser = 'firefox'
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+    { name = "black" },
+    {
+        name = "prettier",
+        args = { "--print-width", "100" },
+        filetypes = { "typescript", "typescriptreact", "javascript" },
+    },
+    { name = "markdownlint" },
+    { name = "rustfmt" },
+}
+
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+    {
+        command = "ruff",
+        filetypes = { "python" },
+    },
+    {
+        command = "shellcheck",
+        filetypes = { "sh" },
+        args = { "--severity", "warning" },
+    },
+    {
+        command = "markdownlint",
+        filetypes = { "markdown" },
+    },
+    {
+        command = "eslint_d",
+        filetypes = { "javascript", "typescript" },
+    },
+}
+
+local opts = {} -- check the lspconfig documentation for a list of all possible options
+require("lvim.lsp.manager").setup("marksman", opts)
+
+-- add `pyright` to `skipped_servers` list
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+-- remove `jedi_language_server` from `skipped_servers` list
+lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+    return server ~= "jedi_language_server"
+end, lvim.lsp.automatic_configuration.skipped_servers)
 
 -- vim.g.nvim_tree_group_empty = 1
 
