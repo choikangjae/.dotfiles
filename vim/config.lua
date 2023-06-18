@@ -111,10 +111,6 @@ dap.configurations.cpp = dap.configurations.rust
 dap.configurations.c = dap.configurations.rust
 -- -- C/C++/Rust DONE
 
--- -- Python
--- local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
--- require("dap-python").setup(mason_path .. "packages/debugpy/venv/bin/python")
-
 -- nvimtree
 vim.api.nvim_set_keymap('n', '<c-d>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
@@ -127,56 +123,51 @@ lvim.lsp.buffer_mappings.normal_mode['gh'] = lvim.lsp.buffer_mappings.normal_mod
 lvim.lsp.buffer_mappings.normal_mode['K'] = nil
 
 -- telescope
-lvim.builtin.telescope.defaults.initial_mode = 'normal'
+lvim.builtin.telescope.defaults.initial_mode = 'normal' -- init telescope in normal mode, not insert mode
 
 -- toggleterm https://github.com/akinsho/toggleterm.nvim
 lvim.builtin.terminal.open_mapping = "<c-t>"
--- lvim.builtin.terminal.size = 6
--- lvim.builtin.terminal.direction = 'horizontal'
--- lvim.builtin.terminal.start_in_insert = true
 map.set('t', 'g<esc>', [[<C-\><C-n>]], options)
 
 -- -- lvim builtin DONE
 
 -- -- vim basic settings
-vim.opt.backup = false                          -- creates a backup file
-vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
+vim.opt.backup = false                     -- creates a backup file
+vim.opt.clipboard = "unnamedplus"          -- allows neovim to access the system clipboard
 -- vim.opt.cmdheight = 2 -- more space in the neovim command line for displaying messages
-vim.opt.colorcolumn = "99999"                   -- fixes indentline for now
+vim.opt.colorcolumn = "99999"              -- fixes indentline for now
 vim.opt.completeopt = { "menuone", "noselect" }
-vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
-vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
-vim.opt.foldmethod = "manual"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
-vim.opt.hidden = true                           -- required to keep multiple buffers and open multiple buffers
-vim.opt.hlsearch = true                         -- highlight all matches on previous search pattern
-vim.opt.ignorecase = true                       -- ignore case in search patterns
-vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
-vim.opt.pumheight = 5                           -- pop up menu height
-vim.opt.showmode = false                        -- we don't need to see things like -- INSERT -- anymore
-vim.opt.showtabline = 2                         -- always show tabs
-vim.opt.smartcase = true                        -- smart case
-vim.opt.smartindent = true                      -- make indenting smarter again
-vim.opt.splitbelow = true                       -- force all horizontal splits to go below current window
-vim.opt.splitright = true                       -- force all vertical splits to go to the right of current window
-vim.opt.swapfile = false                        -- creates a swapfile
-vim.opt.termguicolors = true                    -- set term gui colors (most terminals support this)
-vim.opt.timeoutlen = 300                        -- time to wait for a mapped sequence to complete (in milliseconds)
-vim.opt.title = true                            -- set the title of window to the value of the titlestring
-vim.opt.titlestring = "%<%F%=%l/%L - nvim"      -- what the title of the window will be set to
+vim.opt.conceallevel = 0                   -- so that `` is visible in markdown files
+vim.opt.fileencoding = "utf-8"             -- the encoding written to a file
+vim.opt.hidden = true                      -- required to keep multiple buffers and open multiple buffers
+vim.opt.hlsearch = true                    -- highlight all matches on previous search pattern
+vim.opt.ignorecase = true                  -- ignore case in search patterns
+vim.opt.mouse = "a"                        -- allow the mouse to be used in neovim
+vim.opt.pumheight = 5                      -- pop up menu height
+vim.opt.showmode = false                   -- we don't need to see things like -- INSERT -- anymore
+vim.opt.showtabline = 2                    -- always show tabs
+vim.opt.smartcase = true                   -- smart case
+vim.opt.smartindent = true                 -- make indenting smarter again
+vim.opt.splitbelow = true                  -- force all horizontal splits to go below current window
+vim.opt.splitright = true                  -- force all vertical splits to go to the right of current window
+vim.opt.swapfile = false                   -- creates a swapfile
+vim.opt.termguicolors = true               -- set term gui colors (most terminals support this)
+vim.opt.timeoutlen = 300                   -- time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.title = true                       -- set the title of window to the value of the titlestring
+vim.opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
 vim.opt.undodir = vim.fn.stdpath "cache" .. "/undo"
-vim.opt.undofile = true                         -- enable persistent undo
-vim.opt.updatetime = 300                        -- faster completion
-vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program) it is not allowed to be edited
-vim.opt.expandtab = true                        -- convert tabs to spaces
-vim.opt.shiftwidth = 4                          -- the number of spaces inserted for each indentation
-vim.opt.tabstop = 4                             -- insert 2 spaces for a tab
-vim.opt.cursorline = true                       -- highlight the current line
-vim.opt.cursorcolumn = false                    -- highlight the current line
-vim.opt.number = true                           -- set numbered lines
-vim.opt.relativenumber = true                   -- set relative numbered lines
-vim.opt.numberwidth = 4                         -- set number column width to 2 {default 4}
-vim.opt.wrap = true                             -- display lines as one long line
+vim.opt.undofile = true                    -- enable persistent undo
+vim.opt.updatetime = 300                   -- faster completion
+vim.opt.writebackup = false                -- if a file is being edited by another program (or was written to file while editing with another program) it is not allowed to be edited
+vim.opt.expandtab = true                   -- convert tabs to spaces
+vim.opt.shiftwidth = 4                     -- the number of spaces inserted for each indentation
+vim.opt.tabstop = 4                        -- insert 2 spaces for a tab
+vim.opt.cursorline = true                  -- highlight the current line
+vim.opt.cursorcolumn = false               -- highlight the current line
+vim.opt.number = true                      -- set numbered lines
+vim.opt.relativenumber = true              -- set relative numbered lines
+vim.opt.numberwidth = 4                    -- set number column width to 2 {default 4}
+vim.opt.wrap = true                        -- display lines as one long line
 vim.opt.spell = false
 vim.opt.spelllang = "en"
 vim.opt.scrolloff = 8
@@ -186,17 +177,27 @@ vim.opt.tabstop = 4
 vim.opt.relativenumber = true
 -- -- vim basic settings DONE
 
+-- -- fold
+vim.opt.foldenable = true
+vim.opt.foldmethod = "expr"                     -- "expr" "manual"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+vim.opt.foldlevel = 99                          -- Using ufo provider need a large value, feel free to decrease the value
+vim.opt.foldcolumn = '1'                        -- '0' is not bad
+vim.opt.foldlevelstart = 99
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+-- -- fold DONE
+
 -- -- plugins
 lvim.plugins = {
-    -- {
-    --     "Pocco81/auto-save.nvim",
-    -- },
-    "mfussenegger/nvim-dap-python",
-    "nvim-neotest/neotest",
-    "nvim-neotest/neotest-python",
+    {
+        "kevinhwang91/nvim-ufo",
+        dependencies = "kevinhwang91/promise-async",
+    },
     -- {
     --     "ThePrimeagen/refactoring.nvim",
     -- },
+    -- TODO temp branch while refactoring.nvim has a bug
     {
         "TheLeoP/refactoring.nvim",
         branch = "fix_390"
@@ -232,13 +233,18 @@ lvim.plugins = {
         ft = "markdown",
         build = ":call mkdp#util#install()",
     },
+    -- python dap
+    "mfussenegger/nvim-dap-python",
+    "nvim-neotest/neotest",
+    "nvim-neotest/neotest-python",
+    -- python dap DONE
 }
 -- -- plugins DONE
 
 -- -- Plugin settings
 
 -- -- MarkdownPreview
-vim.g.mkdp_auto_start = 1
+vim.g.mkdp_auto_start = 0
 
 -- -- Color scheme
 local black = '#080808'
@@ -275,6 +281,108 @@ lvim.builtin.lualine.options.theme = custom_vscode
 -- -- lualine DONE
 
 -- -- Plugin settings DONE
+
+lvim.log.level = "info"
+lvim.format_on_save = {
+    enabled = true,
+}
+
+lvim.leader = "space"
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.terminal.active = true
+lvim.builtin.nvimtree.setup.view.side = "left"
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.nvimtree.setup.view.width = 30
+lvim.builtin.treesitter.auto_install = true
+
+-- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+    { name = "black" },
+    {
+        name = "prettier",
+        args = { "--print-width", "100" },
+        filetypes = { "typescript", "typescriptreact", "javascript" },
+    },
+    { name = "markdownlint" },
+    { name = "rustfmt" },
+}
+
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+    {
+        command = "ruff",
+        filetypes = { "python" },
+    },
+    {
+        command = "shellcheck",
+        filetypes = { "sh" },
+        args = { "--severity", "warning" },
+    },
+    {
+        command = "markdownlint",
+        filetypes = { "markdown" },
+    },
+    {
+        command = "eslint_d",
+        filetypes = { "javascript", "typescript" },
+    },
+}
+
+local opts = {} -- check the lspconfig documentation for a list of all possible options
+require("lvim.lsp.manager").setup("marksman", opts)
+
+-- Change python default lsp
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+    return server ~= "jedi_language_server"
+end, lvim.lsp.automatic_configuration.skipped_servers)
+
+-- autocmd augroup
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+-- https://github.com/NickP-real/.dotfile/blob/main/.config/nvim/lua/core/autocmd.lua#L31
+-- Use 'q' to quit from common plugins
+autocmd("FileType", {
+    pattern = {
+        "help",
+        "man",
+        "lspinfo",
+        "trouble",
+        "null-ls-info",
+        "qf",
+        "help",
+        "notify",
+        "startuptime",
+    },
+    callback = function(event)
+        vim.opt_local.wrap = false
+        vim.bo[event.buf].buflisted = false
+        vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+    end,
+})
+
+-- https://github.com/NickP-real/.dotfile/blob/main/.config/nvim/lua/core/autocmd.lua#L51
+-- Persistent Folds
+local save_fold = augroup("Persistent Folds", { clear = true })
+autocmd("BufWinLeave", {
+    pattern = "*.*",
+    callback = function()
+        vim.cmd.mkview()
+    end,
+    group = save_fold,
+})
+autocmd("BufWinEnter", {
+    pattern = "*.*",
+    callback = function()
+        vim.cmd.loadview({ mods = { emsg_silent = true } })
+    end,
+    group = save_fold,
+})
 
 -- Remember last position
 -- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
@@ -318,115 +426,8 @@ local function run()
     end
 end
 
-vim.api.nvim_create_autocmd({ 'BufWinEnter', 'FileType' }, {
-    group    = vim.api.nvim_create_augroup('nvim-lastplace', {}),
+autocmd({ 'BufWinEnter', 'FileType' }, {
+    group    = augroup('nvim-lastplace', {}),
     callback = run
 })
 -- Remember last position DONE
-
--- -- Autogenerated by Lunarvim until the EOF
--- general
-lvim.log.level = "info"
-lvim.format_on_save = {
-    enabled = true,
-}
-
-lvim.leader = "space"
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-
-lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
-lvim.builtin.nvimtree.setup.view.width = 30
-
--- Automatically install missing parsers when entering buffer
-lvim.builtin.treesitter.auto_install = true
--- -- created automatically DONE
-
--- lvim.builtin.treesitter.ignore_install = { "haskell" }
-
--- -- always installed on startup, useful for parsers without a strict filetype
--- lvim.builtin.treesitter.ensure_installed = { "comment", "markdown_inline", "regex" }
-
--- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
-
--- --- disable automatic installation of servers
--- lvim.lsp.installer.setup.automatic_installation = false
--- lvim.lsp.installer.setup.automatic_installation.exclude = { "pyright" }
-
--- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
--- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
-
--- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
--- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
--- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
---     return server ~= "pyright"
--- end, lvim.lsp.automatic_configuration.skipped_servers)
-
--- -- you can set a custom on_attach function that will be used for all the language servers
--- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
-
--- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
-local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup {
-    { name = "black" },
-    {
-        name = "prettier",
-        args = { "--print-width", "100" },
-        filetypes = { "typescript", "typescriptreact", "javascript" },
-    },
-    { name = "markdownlint" },
-    { name = "rustfmt" },
-}
-
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-    {
-        command = "ruff",
-        filetypes = { "python" },
-    },
-    {
-        command = "shellcheck",
-        filetypes = { "sh" },
-        args = { "--severity", "warning" },
-    },
-    {
-        command = "markdownlint",
-        filetypes = { "markdown" },
-    },
-    {
-        command = "eslint_d",
-        filetypes = { "javascript", "typescript" },
-    },
-}
-
-local opts = {} -- check the lspconfig documentation for a list of all possible options
-require("lvim.lsp.manager").setup("marksman", opts)
-
--- add `pyright` to `skipped_servers` list
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- remove `jedi_language_server` from `skipped_servers` list
-lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
-    return server ~= "jedi_language_server"
-end, lvim.lsp.automatic_configuration.skipped_servers)
-
--- vim.g.nvim_tree_group_empty = 1
-
--- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "zsh",
---   callback = function()
---     -- let treesitter use bash highlight for zsh files as well
---     require("nvim-treesitter.highlight").attach(0, "bash")
---   end,
--- })
