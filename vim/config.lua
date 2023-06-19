@@ -77,7 +77,7 @@ lvim.builtin.which_key.mappings["d"] = {
     i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
     o = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over" },
     p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
-    q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
+    q = { "<cmd>lua require'dapui'.close()<cr>", "Quit" },
     r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
     s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
     t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
@@ -85,6 +85,11 @@ lvim.builtin.which_key.mappings["d"] = {
     u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
 }
 
+-- require("dapui").open()
+-- require("dapui").close()
+-- require("dapui").toggle()
+
+-- For more configurations, https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
 local dap = require('dap')
 -- -- C/C++/Rust
 dap.adapters.codelldb = {
@@ -110,6 +115,38 @@ dap.configurations.rust = {
 dap.configurations.cpp = dap.configurations.rust
 dap.configurations.c = dap.configurations.rust
 -- -- C/C++/Rust DONE
+
+-- -- typescript, javascript
+local js_based_languages = { "typescript", "javascript", "typescriptreact" }
+
+for _, language in ipairs(js_based_languages) do
+    require("dap").configurations[language] = {
+        {
+            type = "pwa-node",
+            request = "launch",
+            name = "Launch file",
+            program = "${file}",
+            cwd = "${workspaceFolder}",
+        },
+        {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach",
+            processId = require 'dap.utils'.pick_process,
+            cwd = "${workspaceFolder}",
+        },
+        {
+            type = "pwa-chrome",
+            request = "launch",
+            name = "Start Chrome with \"localhost\"",
+            url = "http://localhost:3000",
+            webRoot = "${workspaceFolder}",
+            userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
+        }
+    }
+end
+
+-- -- typescript, javascript DONE
 
 -- nvimtree
 vim.api.nvim_set_keymap('n', '<c-d>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
@@ -190,6 +227,29 @@ vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
 -- -- plugins
 lvim.plugins = {
+    {
+        "mfussenegger/nvim-dap",
+        lazy = true,
+        dependencies = {
+            -- "rcarriga/nvim-dap-ui",
+            "mxsdev/nvim-dap-vscode-js",
+            -- lazy spec to build "microsoft/vscode-js-debug" from source
+            {
+                "microsoft/vscode-js-debug",
+                version = "1.x",
+                -- build = "npm i && npm run compile vsDebugServerBundle && mv dist out"
+            }
+        },
+        keys = { ... },
+        config = function()
+            require("dap-vscode-js").setup({
+                debugger_path =
+                "/home/user1/.local/share/lunarvim/site/pack/lazy/opt/vscode-js-debug",
+                adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
+            })
+            require("dapui").setup()
+        end
+    },
     {
         "kevinhwang91/nvim-ufo",
         dependencies = "kevinhwang91/promise-async",
