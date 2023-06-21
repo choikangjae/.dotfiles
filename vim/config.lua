@@ -163,6 +163,30 @@ lvim.lsp.buffer_mappings.normal_mode['K'] = nil
 
 -- telescope
 lvim.builtin.telescope.defaults.initial_mode = 'normal' -- init telescope in normal mode, not insert mode
+lvim.builtin.telescope.defaults.mappings = {
+    n = {
+
+        ["q"] = require('telescope.actions').close,
+    }
+}
+
+lvim.builtin.which_key.mappings["f"] = {
+    name = "Find",
+    b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+    c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+    f = { "<cmd>Telescope find_files<cr>", "Find files" },
+    t = { "<cmd>Telescope live_grep<cr>", "Find Text" },
+    s = { "<cmd>Telescope grep_string<cr>", "Find String" },
+    h = { "<cmd>Telescope help_tags<cr>", "Help" },
+    H = { "<cmd>Telescope highlights<cr>", "Highlights" },
+    i = { "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>", "Media" },
+    l = { "<cmd>Telescope resume<cr>", "Last Search" },
+    M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+    r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
+    R = { "<cmd>Telescope registers<cr>", "Registers" },
+    k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+    C = { "<cmd>Telescope commands<cr>", "Commands" },
+}
 
 -- toggleterm https://github.com/akinsho/toggleterm.nvim
 lvim.builtin.terminal.open_mapping = "<c-t>"
