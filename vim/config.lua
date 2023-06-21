@@ -275,13 +275,7 @@ lvim.plugins = {
         end
     },
     {
-    -- {
-    --     "ThePrimeagen/refactoring.nvim",
-    -- },
-    -- TODO temp branch while refactoring.nvim has a bug
-    {
-        "TheLeoP/refactoring.nvim",
-        branch = "fix_390"
+        "ThePrimeagen/refactoring.nvim",
     },
     {
         "folke/todo-comments.nvim",
