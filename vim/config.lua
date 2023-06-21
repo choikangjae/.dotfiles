@@ -37,7 +37,6 @@ map.set("", "gr", ":BufferLineCyclePrev<cr>", options)
 map.set("", "gt", ":BufferLineCycleNext<cr>", options)
 
 lvim.keys.normal_mode["<leader>cn"] = "<cmd>lua vim.lsp.buf.rename()<CR>"
--- lvim.keys.normal_mode["<leader>so"] = ":so ~/.config/lvim/config.lua<CR>"
 
 -- refactoring
 map.set("v", "R", ":lua require('refactoring').select_refactor()<CR>",
