@@ -14,7 +14,7 @@ alias vz='lvim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias vf='lvim ~/.bash_functions'
 alias va='lvim ~/.bash_aliases'
-alias rm='rm -i'
+alias var='lvim ~/.bash_arch'
 
 alias ...='cd ../../'
 alias ....='cd ../../../'
@@ -24,9 +24,12 @@ alias vi=lvim
 alias top='atop'
 alias btm='sudo btm -b'
 
+# python
 alias py='python3'
-alias clone='git clone --depth=1'
+alias activate='source .venv/bin/activate'
 
+# git
+alias clone='git clone --depth=1'
 alias lg='lazygit'
 
 # docker

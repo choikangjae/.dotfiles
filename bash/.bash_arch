@@ -6,6 +6,10 @@ function rem() {
     yay -Rns $1
 }
 
+function rm() {
+    kioclient5 move "$@" trash:/
+}
+
 alias delca="sudo pacman -Sc && yay -Sc"
 alias pins="sudo pacman --noconfirm -S "
 alias plist="sudo pacman -Qe "
