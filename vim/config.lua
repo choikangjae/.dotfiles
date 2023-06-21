@@ -27,6 +27,8 @@ map.set("n", "Z", ":%s//<left>", options)
 map.set("n", "gi", "mygg=G'y", options)
 map.set("n", "M", "'", options)
 
+map.set({ "n", "v" }, "gp", "\"0p", options)
+
 map.set("v", "<cr>", "<esc>", options)
 map.set("v", "J", "7gjzzzv", options)
 map.set("v", "K", "7gkzzzv", options)
