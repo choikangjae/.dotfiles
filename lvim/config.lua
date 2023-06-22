@@ -1,45 +1,53 @@
 -- -- keymap
 local options = { noremap = true, silent = true }
-local map = vim.keymap
-map.set("i", "<C-e>", "<esc>A;<cr>", options)
 
-map.set("i", "jk", "<esc>", options)
-map.set("i", "kj", "<esc>", options)
+vim.keymap.set("i", "jk", "<esc>", options)
+vim.keymap.set("i", "kj", "<esc>", options)
 
-map.set("", "<Up>", "<c-p>", options)
-map.set("", "<Down>", "<c-n>", options)
-map.set("", "e", "$", options)
-map.set("", "s", "^", options)
+vim.keymap.set("", "<Up>", "<c-p>", options)
+vim.keymap.set("", "<Down>", "<c-n>", options)
+vim.keymap.set("", "e", "$", options)
+vim.keymap.set("", "s", "^", options)
+vim.keymap.set("", "gr", ":BufferLineCyclePrev<cr>", options)
+vim.keymap.set("", "gt", ":BufferLineCycleNext<cr>", options)
 
-map.set("n", "j", "gj", options)
-map.set("n", "gr", "gT", options)
-map.set("n", "H", "<C-o>", options)
-map.set("n", "L", "<C-i>", options)
-map.set("n", "J", "7gjzz", options)
-map.set("n", "K", "7gkzz", options)
-map.set("n", "n", "nzz", options)
-map.set("n", "N", "Nzz", options)
-map.set("n", "S", "I", options)
-map.set("n", "E", "A", options)
-map.set("n", "U", "<C-r>", options)
-map.set("n", "<tab>", "<C-w>w", options)
-map.set("n", "Z", ":%s//<left>", options)
-map.set("n", "gi", "mygg=G'y", options)
-map.set("n", "M", "'", options)
+vim.keymap.set("n", "j", "gj", options)
+vim.keymap.set("n", "gr", "gT", options)
+vim.keymap.set("n", "H", "<C-o>", options)
+vim.keymap.set("n", "L", "<C-i>", options)
+vim.keymap.set("n", "J", "7gjzz", options)
+vim.keymap.set("n", "K", "7gkzz", options)
+vim.keymap.set("n", "n", "nzz", options)
+vim.keymap.set("n", "N", "Nzz", options)
+vim.keymap.set("n", "S", "I", options)
+vim.keymap.set("n", "E", "A", options)
+vim.keymap.set("n", "U", "<C-r>", options)
+vim.keymap.set("n", "<tab>", "<C-w>w", options)
+vim.keymap.set("n", "Z", ":%s//<left>", options)
+vim.keymap.set("n", "gi", "mygg=G'y", options)
+vim.keymap.set("n", "M", "'", options)
 
-map.set({ "n", "v" }, "gp", "\"0p", options)
+vim.keymap.set({ "n", "v" }, "gp", "\"0p", options)
 
-map.set("v", "<cr>", "<esc>", options)
-map.set("v", "J", "7gjzzzv", options)
-map.set("v", "K", "7gkzzzv", options)
+vim.keymap.set("v", "<cr>", "<esc>", options)
+vim.keymap.set("v", "J", "7gjzzzv", options)
+vim.keymap.set("v", "K", "7gkzzzv", options)
 
-map.set("", "gr", ":BufferLineCyclePrev<cr>", options)
-map.set("", "gt", ":BufferLineCycleNext<cr>", options)
+vim.keymap.set({ "o", "x" }, "iq", 'i"') -- [q]uote
+vim.keymap.set({ "o", "x" }, "aq", 'a"')
+vim.keymap.set({ "o", "x" }, "iy", "i'") -- s[y]ngle quote
+vim.keymap.set({ "o", "x" }, "ay", "a'")
+vim.keymap.set({ "o", "x" }, "ag", "a`") -- [g]rave
+vim.keymap.set({ "o", "x" }, "ig", "i`")
+vim.keymap.set({ "o", "x" }, "ir", "i]") -- [r]ectangular brackets
+vim.keymap.set({ "o", "x" }, "ar", "a]")
+vim.keymap.set({ "o", "x" }, "ic", "i}") -- [c]urly brackets
+vim.keymap.set({ "o", "x" }, "ac", "a}")
 
 lvim.keys.normal_mode["<leader>cn"] = "<cmd>lua vim.lsp.buf.rename()<CR>"
 
 -- refactoring
-map.set("v", "R", ":lua require('refactoring').select_refactor()<CR>",
+vim.keymap.set("v", "R", ":lua require('refactoring').select_refactor()<CR>",
     { noremap = true, silent = true, expr = false })
 
 -- -- keymap DONE
@@ -58,6 +66,7 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 
 -- -- lvim builtin
+
 -- dap
 lvim.builtin.dap.active = true
 
@@ -161,11 +170,12 @@ lvim.lsp.buffer_mappings.normal_mode['gh'] = lvim.lsp.buffer_mappings.normal_mod
 lvim.lsp.buffer_mappings.normal_mode['K'] = nil
 
 -- telescope
-lvim.builtin.telescope.defaults.initial_mode = 'normal' -- init telescope in normal mode, not insert mode
-lvim.builtin.telescope.defaults.mappings = {
-    n = {
-
-        ["q"] = require('telescope.actions').close,
+lvim.builtin.telescope.defaults = {
+    initial_mode = 'normal',
+    mappings = {
+        n = {
+            ["q"] = require('telescope.actions').close,
+        }
     }
 }
 
@@ -189,7 +199,7 @@ lvim.builtin.which_key.mappings["f"] = {
 
 -- toggleterm https://github.com/akinsho/toggleterm.nvim
 lvim.builtin.terminal.open_mapping = "<c-t>"
-map.set('t', 'g<esc>', [[<C-\><C-n>]], options)
+vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], options)
 
 -- -- lvim builtin DONE
 
@@ -214,7 +224,7 @@ vim.opt.splitbelow = true                  -- force all horizontal splits to go 
 vim.opt.splitright = true                  -- force all vertical splits to go to the right of current window
 vim.opt.swapfile = false                   -- creates a swapfile
 vim.opt.termguicolors = true               -- set term gui colors (most terminals support this)
-vim.opt.timeoutlen = 300                   -- time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.timeoutlen = 200                   -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.title = true                       -- set the title of window to the value of the titlestring
 vim.opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
 vim.opt.undodir = vim.fn.stdpath "cache" .. "/undo"
@@ -244,7 +254,7 @@ vim.opt.foldenable = true
 vim.opt.foldmethod = "expr"                     -- "expr" "manual"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.foldlevel = 99                          -- Using ufo provider need a large value, feel free to decrease the value
-vim.opt.foldcolumn = '1'                        -- '0' is not bad
+-- vim.opt.foldcolumn = '1'                        -- '0' is not bad
 vim.opt.foldlevelstart = 99
 -- -- fold DONE
 
@@ -293,8 +303,10 @@ lvim.plugins = {
         "phaazon/hop.nvim",
         event = "BufRead",
         config = function()
-            require("hop").setup()
-            vim.api.nvim_set_keymap("n", "t", ":HopWord<cr>", { silent = true })
+            require 'hop'.setup {
+                -- keys = 'fjdkslghal'
+            }
+            vim.api.nvim_set_keymap("n", "f", ":HopWord<cr>", { silent = true })
         end,
     },
     -- vscode theme
@@ -382,7 +394,7 @@ formatters.setup {
         filetypes = { "typescript", "typescriptreact", "javascript" },
     },
     { name = "markdownlint" },
-    { name = "rustfmt" },
+    { command = "rustfmt",  filetypes = { "rust" } },
 }
 
 local linters = require "lvim.lsp.null-ls.linters"
