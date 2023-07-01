@@ -3,6 +3,7 @@ local options = { noremap = true, silent = true }
 
 vim.keymap.set("i", "jk", "<esc>", options)
 vim.keymap.set("i", "kj", "<esc>", options)
+vim.keymap.set("i", "<A-p>", "<esc>gpi", options)
 
 vim.keymap.set("", "<Up>", "<c-p>", options)
 vim.keymap.set("", "<Down>", "<c-n>", options)
@@ -12,11 +13,8 @@ vim.keymap.set("", "gr", ":BufferLineCyclePrev<cr>", options)
 vim.keymap.set("", "gt", ":BufferLineCycleNext<cr>", options)
 
 vim.keymap.set("n", "j", "gj", options)
-vim.keymap.set("n", "gr", "gT", options)
 vim.keymap.set("n", "H", "<C-o>", options)
 vim.keymap.set("n", "L", "<C-i>", options)
-vim.keymap.set("n", "J", "7gjzz", options)
-vim.keymap.set("n", "K", "7gkzz", options)
 vim.keymap.set("n", "n", "nzz", options)
 vim.keymap.set("n", "N", "Nzz", options)
 vim.keymap.set("n", "S", "I", options)
@@ -28,21 +26,22 @@ vim.keymap.set("n", "gi", "mygg=G'y", options)
 vim.keymap.set("n", "M", "'", options)
 
 vim.keymap.set({ "n", "v" }, "gp", "\"0p", options)
+vim.keymap.set({ "n", "v" }, "J", "7gjzz", options)
+vim.keymap.set({ "n", "v" }, "K", "7gkzz", options)
 
-vim.keymap.set("v", "<cr>", "<esc>", options)
-vim.keymap.set("v", "J", "7gjzzzv", options)
-vim.keymap.set("v", "K", "7gkzzzv", options)
-
-vim.keymap.set({ "o", "x" }, "iq", 'i"') -- [q]uote
-vim.keymap.set({ "o", "x" }, "aq", 'a"')
-vim.keymap.set({ "o", "x" }, "iy", "i'") -- s[y]ngle quote
-vim.keymap.set({ "o", "x" }, "ay", "a'")
+vim.keymap.set({ "o", "x" }, "id", 'i"') -- [d]ouble quote
+vim.keymap.set({ "o", "x" }, "ad", 'a"')
+vim.keymap.set({ "o", "x" }, "iq", "i'") -- [q]uote
+vim.keymap.set({ "o", "x" }, "aq", "a'")
 vim.keymap.set({ "o", "x" }, "ag", "a`") -- [g]rave
 vim.keymap.set({ "o", "x" }, "ig", "i`")
 vim.keymap.set({ "o", "x" }, "ir", "i]") -- [r]ectangular brackets
 vim.keymap.set({ "o", "x" }, "ar", "a]")
 vim.keymap.set({ "o", "x" }, "ic", "i}") -- [c]urly brackets
 vim.keymap.set({ "o", "x" }, "ac", "a}")
+
+vim.cmd([[command! -nargs=0 Sudow execute ':w !sudo tee %']])
+vim.cmd([[command! -nargs=0 Q execute ':q']])
 
 lvim.keys.normal_mode["<leader>cn"] = "<cmd>lua vim.lsp.buf.rename()<CR>"
 
@@ -66,8 +65,8 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 
 -- -- lvim builtin
+lvim.builtin.which_key.mappings.c = nil
 
--- dap
 lvim.builtin.dap.active = true
 
 -- https://gist.github.com/mengwangk/9be5794515f0c56016a5b1fe4a2297e1
@@ -77,7 +76,7 @@ lvim.builtin.which_key.mappings["d"] = {
     E = { "<cmd>lua require'dapui'.eval(vim.fn.input '[Expression] > ')<cr>", "Evaluate Input" },
     C = { "<cmd>lua require'dap'.set_breakpoint(vim.fn.input '[Condition] > ')<cr>", "Conditional Breakpoint" },
     U = { "<cmd>lua require'dapui'.toggle()<cr>", "Toggle UI" },
-    b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
+    -- b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
     c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
     d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
     e = { "<cmd>lua require'dapui'.eval()<cr>", "Evaluate" },
@@ -90,7 +89,7 @@ lvim.builtin.which_key.mappings["d"] = {
     q = { "<cmd>lua require'dapui'.close()<cr>", "Quit" },
     r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
     s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
-    t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
+    b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
     x = { "<cmd>lua require'dap'.terminate()<cr>", "Terminate" },
     u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
 }
@@ -190,7 +189,7 @@ lvim.builtin.which_key.mappings["f"] = {
     H = { "<cmd>Telescope highlights<cr>", "Highlights" },
     i = { "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>", "Media" },
     l = { "<cmd>Telescope resume<cr>", "Last Search" },
-    M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+    m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
     r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
     R = { "<cmd>Telescope registers<cr>", "Registers" },
     k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
@@ -199,7 +198,9 @@ lvim.builtin.which_key.mappings["f"] = {
 
 -- toggleterm https://github.com/akinsho/toggleterm.nvim
 lvim.builtin.terminal.open_mapping = "<c-t>"
-vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], options)
+vim.keymap.set('t', '<esc><esc>', [[<C-\><C-n>]], options)
+vim.keymap.set('t', 'jk', [[<C-\><C-n>]], options)
+vim.keymap.set('t', 'kj', [[<C-\><C-n>]], options)
 
 -- -- lvim builtin DONE
 
@@ -224,7 +225,7 @@ vim.opt.splitbelow = true                  -- force all horizontal splits to go 
 vim.opt.splitright = true                  -- force all vertical splits to go to the right of current window
 vim.opt.swapfile = false                   -- creates a swapfile
 vim.opt.termguicolors = true               -- set term gui colors (most terminals support this)
-vim.opt.timeoutlen = 200                   -- time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.timeoutlen = 500                   -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.title = true                       -- set the title of window to the value of the titlestring
 vim.opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
 vim.opt.undodir = vim.fn.stdpath "cache" .. "/undo"
@@ -260,6 +261,11 @@ vim.opt.foldlevelstart = 99
 
 -- -- plugins
 lvim.plugins = {
+    {
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        opts = {},
+    },
     {
         "mfussenegger/nvim-dap",
         lazy = true,
@@ -304,9 +310,8 @@ lvim.plugins = {
         event = "BufRead",
         config = function()
             require 'hop'.setup {
-                -- keys = 'fjdkslghal'
             }
-            vim.api.nvim_set_keymap("n", "f", ":HopWord<cr>", { silent = true })
+            vim.keymap.set({ "v", "n" }, "f", "<cmd>HopWord<cr>", { silent = true })
         end,
     },
     -- vscode theme
@@ -394,7 +399,8 @@ formatters.setup {
         filetypes = { "typescript", "typescriptreact", "javascript" },
     },
     { name = "markdownlint" },
-    { command = "rustfmt",  filetypes = { "rust" } },
+    { name = "shfmt",       filetypes = { "sh" } },
+    -- { command = "rustfmt",  filetypes = { "rust" } },
 }
 
 local linters = require "lvim.lsp.null-ls.linters"
@@ -418,14 +424,29 @@ linters.setup {
     },
 }
 
-local opts = {} -- check the lspconfig documentation for a list of all possible options
+local opts = {
+    filetypes = "markdown"
+} -- check the lspconfig documentation for a list of all possible options
 require("lvim.lsp.manager").setup("marksman", opts)
 
 -- Change python default lsp
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
-lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
-    return server ~= "jedi_language_server"
-end, lvim.lsp.automatic_configuration.skipped_servers)
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
+-- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+--     return server ~= "typescript-language-server"
+-- end, lvim.lsp.automatic_configuration.skipped_servers)
+
+-- filetype
+
+vim.filetype.add({
+    filename = {
+        ['~/.dotfiles/bash/.bash_arch'] = 'sh',
+        ['~/.dotfiles/bash/.bash_private'] = 'sh',
+        ['~/.dotfiles/bash/.bash_functions'] = 'sh',
+        ['~/.bash_functions'] = 'sh',
+        ['~/.bash_arch'] = 'sh',
+    },
+})
+
 
 -- autocmd augroup
 local autocmd = vim.api.nvim_create_autocmd
