@@ -43,6 +43,19 @@ vim.keymap.set({ "o", "x" }, "ac", "a}")
 vim.cmd([[command! -nargs=0 Sudow execute ':w !sudo tee %']])
 vim.cmd([[command! -nargs=0 Q execute ':q']])
 
+-- autocmd
+vim.api.nvim_create_augroup("lvim_user", {})
+lvim.autocommands = {
+    {
+        { "BufEnter", "BufWinEnter" },
+        {
+            group = "lvim_user",
+            pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+            command = "setlocal ts=2 sw=2",
+        },
+    },
+}
+
 lvim.keys.normal_mode["<leader>cn"] = "<cmd>lua vim.lsp.buf.rename()<CR>"
 
 -- refactoring
@@ -199,8 +212,6 @@ lvim.builtin.which_key.mappings["f"] = {
 -- toggleterm https://github.com/akinsho/toggleterm.nvim
 lvim.builtin.terminal.open_mapping = "<c-t>"
 vim.keymap.set('t', '<esc><esc>', [[<C-\><C-n>]], options)
-vim.keymap.set('t', 'jk', [[<C-\><C-n>]], options)
-vim.keymap.set('t', 'kj', [[<C-\><C-n>]], options)
 
 -- -- lvim builtin DONE
 
@@ -220,7 +231,7 @@ vim.opt.pumheight = 5                      -- pop up menu height
 vim.opt.showmode = false                   -- we don't need to see things like -- INSERT -- anymore
 vim.opt.showtabline = 2                    -- always show tabs
 vim.opt.smartcase = true                   -- smart case
-vim.opt.smartindent = true                 -- make indenting smarter again
+vim.opt.smartindent = false                -- make indenting smarter again
 vim.opt.splitbelow = true                  -- force all horizontal splits to go below current window
 vim.opt.splitright = true                  -- force all vertical splits to go to the right of current window
 vim.opt.swapfile = false                   -- creates a swapfile
@@ -261,6 +272,16 @@ vim.opt.foldlevelstart = 99
 
 -- -- plugins
 lvim.plugins = {
+    {
+        "windwp/nvim-ts-autotag",
+        config = function()
+            require 'nvim-treesitter.configs'.setup {
+                autotag = {
+                    enable = true,
+                },
+            }
+        end
+    },
     {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -398,8 +419,8 @@ formatters.setup {
         args = { "--print-width", "100" },
         filetypes = { "typescript", "typescriptreact", "javascript" },
     },
-    { name = "markdownlint" },
-    { name = "shfmt",       filetypes = { "sh" } },
+    { name = "markdownlint", filetypes = { "markdown" } },
+    { name = "shfmt",        filetypes = { "sh" } },
     -- { command = "rustfmt",  filetypes = { "rust" } },
 }
 
@@ -418,17 +439,25 @@ linters.setup {
         command = "markdownlint",
         filetypes = { "markdown" },
     },
-    {
-        command = "eslint_d",
-        filetypes = { "javascript", "typescript" },
-    },
 }
 
-local opts = {
-    filetypes = "markdown"
-} -- check the lspconfig documentation for a list of all possible options
-require("lvim.lsp.manager").setup("marksman", opts)
+-- local opts = {
+--     filetypes = "markdown"
+-- } -- check the lspconfig documentation for a list of all possible options
 
+-- require 'lspconfig'.eslint.setup({
+--     settings = {
+--         packageManager = 'npm'
+--     },
+--     on_attach = function(_, bufnr)
+--         vim.api.nvim_create_autocmd("BufWritePre", {
+--             buffer = bufnr,
+--             command = "EslintFixAll",
+--         })
+--     end,
+-- })
+
+-- require("lvim.lsp.manager").setup("marksman", opts)
 -- Change python default lsp
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
 -- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
