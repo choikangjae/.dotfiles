@@ -448,5 +448,63 @@
         "output_symbol": "if_single(key(Hangul), hold(Shift_L))",
         "name": "Shift_L",
         "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 126,
+                "origin_hash": "5b4db641d4eecb4efcc0dd85e4246b80"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "KP_Right",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 100,
+                "origin_hash": "5b4db641d4eecb4efcc0dd85e4246b80"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "KP_Left",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 54,
+                "origin_hash": "5b4db641d4eecb4efcc0dd85e4246b80"
+            },
+            {
+                "type": 1,
+                "code": 126,
+                "origin_hash": "5b4db641d4eecb4efcc0dd85e4246b80"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "KEY_VOLUMEUP",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 54,
+                "origin_hash": "5b4db641d4eecb4efcc0dd85e4246b80"
+            },
+            {
+                "type": 1,
+                "code": 100,
+                "origin_hash": "5b4db641d4eecb4efcc0dd85e4246b80"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "KEY_VOLUMEDOWN",
+        "mapping_type": "key_macro"
     }
 ]
