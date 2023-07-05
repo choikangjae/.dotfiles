@@ -44,6 +44,7 @@ alias cb='cargo build'
 # npm
 alias ns='npm start'
 alias nt='npm test'
+alias nb='npm build'
 
 # alternatives
 alias cat='bat'
