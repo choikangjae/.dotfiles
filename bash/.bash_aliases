@@ -19,6 +19,7 @@ alias var='lvim ~/.bash_arch'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias c='clear'
+alias f='fuck'
 
 alias vi=lvim
 alias top='atop'
@@ -44,7 +45,9 @@ alias cb='cargo build'
 # npm
 alias ns='npm start'
 alias nt='npm test'
-alias nb='npm build'
+alias nb='npm run build'
+alias nd='npm run dev'
+alias ni='npm install'
 
 # alternatives
 alias cat='bat'

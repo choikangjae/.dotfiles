@@ -44,6 +44,7 @@ vim.cmd([[command! -nargs=0 Sudow execute ':w !sudo tee %']])
 vim.cmd([[command! -nargs=0 Q execute ':q']])
 
 -- autocmd
+-- https://gitlab.com/lostneophyte/dotfiles/-/blob/39e11d4b56cd603064b446dbd1c84b318fd21ae1/lvim/.config/lvim/config.lua#L64-71
 vim.api.nvim_create_augroup("lvim_user", {})
 lvim.autocommands = {
     {
@@ -272,6 +273,7 @@ vim.opt.foldlevelstart = 99
 
 -- -- plugins
 lvim.plugins = {
+    { "p00f/nvim-ts-rainbow" },
     {
         "windwp/nvim-ts-autotag",
         config = function()
@@ -279,13 +281,19 @@ lvim.plugins = {
                 autotag = {
                     enable = true,
                 },
+                rainbow = {
+                    enable = true,
+                    extended_mode = true,
+                }
             }
         end
     },
     {
         "pmizio/typescript-tools.nvim",
+        ft = { "typescript", "typescriptreact", "javascript" },
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        opts = {},
+        opts = {
+        },
     },
     {
         "mfussenegger/nvim-dap",
@@ -419,8 +427,8 @@ formatters.setup {
         args = { "--print-width", "100" },
         filetypes = { "typescript", "typescriptreact", "javascript" },
     },
-    { name = "markdownlint", filetypes = { "markdown" } },
-    { name = "shfmt",        filetypes = { "sh" } },
+    -- { name = "markdownlint", filetypes = { "markdown" } },
+    { name = "shfmt", filetypes = { "sh" } },
     -- { command = "rustfmt",  filetypes = { "rust" } },
 }
 
@@ -435,10 +443,10 @@ linters.setup {
         filetypes = { "sh" },
         args = { "--severity", "warning" },
     },
-    {
-        command = "markdownlint",
-        filetypes = { "markdown" },
-    },
+    -- {
+    --     command = "markdownlint",
+    --     filetypes = { "markdown" },
+    -- },
 }
 
 -- local opts = {
